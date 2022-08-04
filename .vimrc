@@ -1,6 +1,7 @@
 " Sam Thorold
 " sam.thorold@gmail.com
 " 2022-08-04
+" NB: Linked to .vimrc - edit there
 
 syntax on
 
