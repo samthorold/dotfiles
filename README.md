@@ -1,14 +1,17 @@
 ## Claude Code
 
-`claude/python-projects.md` is the standard approach for Python projects
-(tooling, pre-commit, CI, releases, repo settings). The global
-`~/.claude/CLAUDE.md` imports it from `~/.claude/python-projects.md`, a symlink:
+- `claude/CLAUDE.md`: global instructions for every Claude Code session.
+- `claude/python-projects.md`: the standard approach for Python projects
+  (tooling, pre-commit, CI, releases, repo settings), imported by `CLAUDE.md`.
+
+Both are symlinked into `~/.claude/`:
 
 ```sh
+ln -s ~/Projects/dotfiles/claude/CLAUDE.md ~/.claude/CLAUDE.md
 ln -s ~/Projects/dotfiles/claude/python-projects.md ~/.claude/python-projects.md
 ```
 
-Edit it here (or through the symlink) and commit.
+Edit them here (or through the symlinks) and commit.
 
 ## Vim
 

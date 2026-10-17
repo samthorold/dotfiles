@@ -1,6 +1,6 @@
 # Python projects: development and maintenance approach
 
-The default setup for every Python project. When starting or touching a Python repo, bring it in line with this, and record the project's own specifics (commands, check names, versions, traps) in that repo's `CLAUDE.md`. Reference implementations: `~/Projects/py-ev` (single Python version) and `~/Projects/superenums` (Python version matrix, multiple type checkers). Copy files from them rather than rewriting from memory. Update this file when the approach changes.
+The default setup for every Python project. When starting or touching a Python repo, bring it in line with this, and record the project's own specifics (commands, check names, versions, traps) in that repo's `CLAUDE.md`. Reference implementations: `~/Projects/py-ev` (single Python version) and `~/Projects/superenums` (Python version matrix, multiple type checkers). Copy files from them rather than rewriting from memory. Update this file when the approach changes: it is `~/Projects/dotfiles/claude/python-projects.md` (symlinked into `~/.claude/`), so commit and push the change in `~/Projects/dotfiles`.
 
 ## Tooling
 
