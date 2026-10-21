@@ -2,22 +2,25 @@
 
 ## Where these instructions live
 
-This file (`~/.claude/CLAUDE.md`) and the files it imports are symlinks into `~/Projects/dotfiles/claude/`, a git repo (github.com/samthorold/dotfiles, public). When asked to change these global instructions or the Python playbook, or when a better practice is agreed:
+This file (`~/.claude/CLAUDE.md`) is a symlink into `~/Projects/dotfiles/claude/`, a git repo (github.com/samthorold/dotfiles, **public**). It holds only Claude Code wiring and harness-specific rules. The shared approach for all projects (vocabulary, Guides, Skills, Lessons) is the **Commons**: `~/Projects/commons` (github.com/samthorold/commons, **public**), symlinked to `~/.claude/commons`. Read `~/.claude/commons/CONTEXT.md` before changing it.
 
-- Edit the file in `~/Projects/dotfiles/claude/` (writing through the symlink also works, but never replace the symlink with a regular file).
-- Then commit and push in `~/Projects/dotfiles`, as the repo's history does: straight to `main`, no PR.
-- New global files go in `~/Projects/dotfiles/claude/` too, symlinked into `~/.claude/` and listed in the dotfiles README.
-- Keep it free of secrets and private details: the repo is public.
+- Approach (Conventions, Stances, Procedures) goes in the Commons; wiring and Claude Code harness rules go here.
+- Edit files in their repo (writing through a symlink also works, but never replace a symlink with a regular file), then commit and push straight to `main`, no PR, in both repos.
+- Both repos are public: keep them free of secrets and private details, **including the names of private projects**. Anything about the projects themselves lives in the private portfolio repo, Imported below.
 
-## Durable knowledge goes in source control, not private memory
+@~/.claude/commons/MAP.md
 
-- **Don't keep project knowledge in auto-memory.** Anything worth remembering across sessions (workflow, runtimes, known traps, vision, how to work on the project) goes in the repo's `CLAUDE.md` or the docs it points to, so it is committed, reviewed and visible. Update those docs instead of writing a memory file.
+@~/.claude/commons/guides/global.md
 
-## Python projects
+## Python Guide
 
-The standard development, CI, release and repo-settings approach for every Python project (`~/Projects/dotfiles/claude/python-projects.md`). Update it as the approach changes.
+Imported here for every session until Python projects Import it themselves.
 
-@~/.claude/python-projects.md
+@~/.claude/commons/guides/python.md
+
+## Portfolio (private)
+
+@~/Projects/portfolio/projects.md
 
 ## Permissions & allowlists (Claude Code)
 

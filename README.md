@@ -1,17 +1,20 @@
 ## Claude Code
 
-- `claude/CLAUDE.md`: global instructions for every Claude Code session.
-- `claude/python-projects.md`: the standard approach for Python projects
-  (tooling, pre-commit, CI, releases, repo settings), imported by `CLAUDE.md`.
+- `claude/CLAUDE.md`: global instructions for every Claude Code session. It holds only
+  wiring and harness rules, and Imports the rest.
 
-Both are symlinked into `~/.claude/`:
+The shared approach for all projects (vocabulary, Guides, Skills, Lessons) lives in
+[commons](https://github.com/samthorold/commons). Wiring:
 
 ```sh
 ln -s ~/Projects/dotfiles/claude/CLAUDE.md ~/.claude/CLAUDE.md
-ln -s ~/Projects/dotfiles/claude/python-projects.md ~/.claude/python-projects.md
+ln -s ~/Projects/commons ~/.claude/commons
 ```
 
-Edit them here (or through the symlinks) and commit.
+`CLAUDE.md` also Imports a file from a private repo; on a machine without it, that
+Import resolves to nothing.
+
+Edit files in their repo (or through the symlinks) and commit.
 
 ## Vim
 
