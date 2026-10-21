@@ -9,6 +9,8 @@ The shared approach for all projects (vocabulary, Guides, Skills, Lessons) lives
 ```sh
 ln -s ~/Projects/dotfiles/claude/CLAUDE.md ~/.claude/CLAUDE.md
 ln -s ~/Projects/commons ~/.claude/commons
+# each commons Skill, one by one (other skills in ~/.claude/skills come from elsewhere)
+ln -s ~/.claude/commons/skills/grind-issues ~/.claude/skills/grind-issues
 ```
 
 `CLAUDE.md` also Imports a file from a private repo; on a machine without it, that
