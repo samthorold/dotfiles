@@ -39,6 +39,21 @@ The default setup for every Python project. When starting or touching a Python r
 - A `main` **ruleset** (Settings → Rules, or `gh api -X POST repos/<owner>/<repo>/rulesets --input ruleset.json`): block deletion and non-fast-forward; require a PR with 0 approvals and `allowed_merge_methods: ["squash"]`; required status checks = the CI job names (`integration_id` 15368, GitHub Actions) with `strict_required_status_checks_policy: true` (branch must be up to date); no bypass actors. Copy py-ev's with `gh api repos/samthorold/py-ev/rulesets/<id>`.
 - Create the ruleset only after CI has reported under the exact job names, and record the required check names in the repo's `CLAUDE.md`: renaming the job or changing the matrix breaks merging until the ruleset is updated.
 
+## Rust extensions
+
+When part of a project needs compiled speed, it becomes a Rust extension in the same repo, with Python orchestrating. Reference implementation: `~/Projects/py-minimax-games` (`rust/`, `minimax_games._native`). Copy from it.
+
+- **One crate, `rust/`, in maturin's mixed layout**: `[tool.maturin]` with `manifest-path = "rust/Cargo.toml"`, `module-name = "<pkg>._native"`, `python-source = "src"`. The Python package stays at `src/<pkg>/`. Make it a Cargo workspace only when a second engine arrives.
+- **maturin replaces `uv_build`** (`requires = ["maturin>=X.Y,<X.(Y+1)"]`). PyO3 behind a `python` cargo feature (enabled by `[tool.maturin] features`), so plain `cargo test` needs no Python. Build for the stable ABI from the minimum Python (`abi3-py3XX`), so one wheel per platform serves every version.
+- **`[tool.uv] cache-keys`** must list `pyproject.toml`, `rust/Cargo.toml`, `rust/Cargo.lock` and `rust/src/**/*.rs`, or `uv run` keeps a stale extension after Rust changes.
+- **Pin Rust in `rust-toolchain.toml` at the repo root** (rustup finds it from the working directory, not from `rust/`), with `profile = "minimal"` and `components = ["clippy", "rustfmt"]`; include it in the sdist (`[tool.maturin] include`). Upgrade deliberately in its own PR.
+- **Type stubs** for the extension in `src/<pkg>/_native/*.pyi`, with no `__init__.py`, so the compiled module wins at import time.
+- **pre-commit**: `cargo fmt --check`, `cargo clippy --all-targets --all-features -- -D warnings` (through `uv run --locked`, so PyO3's build script finds the venv's Python) and `cargo test`, all `language: system`, `files: ^(rust/|rust-toolchain\.toml$)`, `pass_filenames: false`. pytest also runs on Rust and TOML changes.
+- **CI** stays one `pre-commit` job: `rustup toolchain install` and `Swatinem/rust-cache` (exact version, `workspaces: rust`) before `uv sync --locked`. The `push` to `main` paths also include `rust/Cargo.lock` and `rust-toolchain.toml`, to keep the cargo cache warm.
+- **Releases**: `release.yml` runs `uv build` on the platform that needs a wheel (e.g. `macos-15` for Apple silicon), giving the sdist plus that wheel; the dry run builds on every PR.
+- **The Python implementation stays the reference**: differential tests compare the Rust and Python results after every step on seeded inputs, and bit-identical randomness (port CPython's MT19937 and the `random` methods used) makes them exact.
+- **Traps**: pinning an exact toolchain makes rustup download it once even if `stable` is the same version. maturin builds a PyPy-specific wheel, which breaks a PyPy environment that relied on `--python-version` workarounds.
+
 ## Workflow
 
 - Every change goes through a branch and a PR, never straight to `main`.
@@ -50,3 +65,4 @@ The default setup for every Python project. When starting or touching a Python r
 
 - `actionlint-py` ships only an sdist that downloads the binary on build. On macOS with python.org Python that fails with `CERTIFICATE_VERIFY_FAILED` until `Install Certificates.command` has run; one-off workaround `SSL_CERT_FILE=/etc/ssl/cert.pem uv sync`.
 - pre-commit only sees tracked files: stage a new file before expecting a hook (e.g. shellcheck) to check it.
+- `gh pr merge --delete-branch` run from a git worktree prints `fatal: 'main' is already used by worktree` after merging, because it can't switch that worktree to `main`. The merge itself succeeded; check with `gh pr view <n> --json state`.
