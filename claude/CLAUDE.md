@@ -14,6 +14,8 @@ This file (`~/.claude/CLAUDE.md`) is a symlink into `~/Projects/dotfiles/claude/
 
 @~/.claude/commons/guides/agentic-development.md
 
+@~/.claude/commons/guides/project-knowledge.md
+
 ## Python Guide
 
 Imported here for every session until Python projects Import it themselves.
