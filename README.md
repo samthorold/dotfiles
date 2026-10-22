@@ -13,6 +13,22 @@ ln -s ~/Projects/commons ~/.claude/commons
 for d in ~/.claude/commons/skills/*/; do ln -s "${d%/}" ~/.claude/skills/; done
 ```
 
+Hooks that belong to a Skill live in that Skill's `hooks/` directory in commons, linked
+into `~/.claude/hooks/` and registered in `~/.claude/settings.json` (not tracked):
+
+```sh
+mkdir -p ~/.claude/hooks
+ln -s ~/.claude/commons/skills/handoff/hooks/handoff-list.py ~/.claude/hooks/
+```
+
+```json
+"hooks": {
+  "SessionStart": [
+    {"matcher": "clear", "hooks": [{"type": "command", "command": "python3 ~/.claude/hooks/handoff-list.py", "timeout": 10}]}
+  ]
+}
+```
+
 `CLAUDE.md` also Imports a file from a private repo; on a machine without it, that
 Import resolves to nothing.
 
