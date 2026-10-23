@@ -1,3 +1,13 @@
+## Machine setup (macOS)
+
+- Add the terminal app under System Settings → Privacy & Security → Developer Tools,
+  then restart it and any agent session running in it. Otherwise `syspolicyd`
+  (Gatekeeper/XProtect) scans every newly linked executable on first launch, and
+  `cargo test` relinks its test binaries on every rebuild: each run after an edit can
+  wait tens of seconds to minutes before tests that take seconds. The tell is a test
+  binary reporting `finished in 0.07s` after a long wait, with `syspolicyd` high in
+  `ps -Ao pcpu,comm -r`.
+
 ## Claude Code
 
 - `claude/CLAUDE.md`: global instructions for every Claude Code session. It holds only
