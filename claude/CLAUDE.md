@@ -26,6 +26,11 @@ Imported here for every session until Python projects Import it themselves.
 
 @~/Projects/portfolio/projects.md
 
+## Environment (Claude Code)
+
+- **A project that calls the Anthropic API never reads its key from `ANTHROPIC_API_KEY`.** Claude Code reads that variable too: set in the shell `claude` is launched from, it switches Claude Code from the claude.ai login to the key, for its own requests and billing, and claude.ai connectors stop working. Give the project its own name (e.g. `<PROJECT>_ANTHROPIC_API_KEY`), which sub-agents inherit without Claude Code taking it, and record the reason beside it so nobody renames it back. *Remove when:* Claude Code stops reading `ANTHROPIC_API_KEY` from the environment while logged in to claude.ai.
+- **Claude Code's environment is fixed when it starts**: a variable set afterwards in another shell reaches neither the session nor its sub-agents. Set it, then relaunch with `claude --continue`. Check a secret is present without printing it, and so that an unset one can't pass: `sh -c 'if [ -n "$(printenv NAME)" ]; then echo set; else echo unset; fi'`. *Remove when:* never; it is how processes inherit environments.
+
 ## Permissions & allowlists (Claude Code)
 
 - **The auto-mode classifier can block commands after `gh pr merge`**, flagging follow-up commands as "Merge Without Review" even when the merge was authorized. When it does, stop and ask the owner; don't work around it (e.g. by rephrasing or chaining the command). *Remove when:* the classifier recognises merges the allowlist authorizes.
